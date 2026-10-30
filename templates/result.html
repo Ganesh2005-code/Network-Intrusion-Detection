@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Prediction Result</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .header{
+            background:#0d3b66;
+            color:white;
+            padding:25px;
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .card{
+            border-radius:15px;
+            border:none;
+        }
+
+        .card:hover{
+            transform:translateY(-3px);
+            transition:.3s;
+        }
+
+        .table th{
+            width:35%;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <h1><i class="bi bi-shield-lock-fill"></i> Prediction Result</h1>
+
+    <p>Network Intrusion Detection System</p>
+
+</div>
+
+<div class="container">
+
+    <!-- Prediction Details -->
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-primary text-white text-center">
+
+            <h3>Prediction Details</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th>Prediction</th>
+
+                    <td>
+
+                        {% if prediction == "Normal Traffic" %}
+
+                        <span class="badge bg-success fs-6">
+                            <i class="bi bi-check-circle-fill"></i>
+                            {{ prediction }}
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger fs-6">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            {{ prediction }}
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th>Confidence</th>
+                    <td>{{ confidence }} %</td>
+                </tr>
+
+                <tr>
+                    <th>Model</th>
+                    <td>{{ model_name }}</td>
+                </tr>
+
+                <tr>
+                    <th>Prediction Time</th>
+                    <td>{{ prediction_time }} sec</td>
+                </tr>
+
+                <tr>
+
+                    <th>Status</th>
+
+                    <td>
+
+                        {% if status == "✔ Safe Network" %}
+
+                        <span class="badge bg-success fs-6">
+
+                            ✔ Safe Network
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger fs-6">
+
+                            ⚠ Dangerous Network
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="row text-center mb-5">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-primary">
+
+                <div class="card-body">
+
+                    <h6>Model</h6>
+
+                    <h4>{{ model_name }}</h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-success">
+
+                <div class="card-body">
+
+                    <h6>Confidence</h6>
+
+                    <h4>{{ confidence }}%</h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-warning">
+
+                <div class="card-body">
+
+                    <h6>Prediction Time</h6>
+
+                    <h4>{{ prediction_time }} sec</h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow border-danger">
+
+                <div class="card-body">
+
+                    <h6>Status</h6>
+
+                    {% if status == "✔ Safe Network" %}
+                    <h4 class="text-success">Safe</h4>
+                    {% else %}
+                    <h4 class="text-danger">Danger</h4>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Prediction History -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-dark text-white">
+
+            <h3>Prediction History</h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover text-center">
+
+                <thead class="table-primary">
+
+                <tr>
+
+                    <th>Time</th>
+
+                    <th>Prediction</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for row in history %}
+
+                <tr>
+
+                    <td>{{ row.time }}</td>
+
+                    <td>
+
+                        {% if row.prediction == "Normal Traffic" %}
+
+                        <span class="badge bg-success">
+
+                            {{ row.prediction }}
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+
+                            {{ row.prediction }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if row.status == "✔ Safe Network" %}
+
+                        <span class="badge bg-success">
+
+                            {{ row.status }}
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-danger">
+
+                            {{ row.status }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="text-center mt-5 mb-5">
+
+        <a href="/" class="btn btn-primary">
+            <i class="bi bi-house-fill"></i> Home
+        </a>
+
+        <a href="/dashboard" class="btn btn-success">
+            <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+
+        <form action="/predict" method="POST" style="display:inline;">
+
+            <button class="btn btn-warning">
+
+                <i class="bi bi-arrow-repeat"></i>
+
+                Predict Again
+
+            </button>
+
+        </form>
+
+        <a href="/download_history" class="btn btn-info text-white">
+
+            <i class="bi bi-download"></i>
+
+            Download CSV
+
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
